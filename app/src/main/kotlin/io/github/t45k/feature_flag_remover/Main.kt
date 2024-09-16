@@ -4,6 +4,7 @@ import io.github.t45k.feature_flag_remover.internal.ClassAstNode
 import io.github.t45k.feature_flag_remover.internal.PropertyAstNode
 import io.github.t45k.feature_flag_remover.internal.RemoveCandidateAstNode
 import io.github.t45k.feature_flag_remover.internal.StatementAstNode
+import io.github.t45k.feature_flag_remover.internal.ValueArgumentAstNode
 import kotlin.io.path.Path
 import kotlin.io.path.readText
 import kotlinx.ast.common.AstSource
@@ -29,6 +30,7 @@ private fun traverse(ast: Ast, targetName: String): List<RemoveCandidateAstNode>
         StatementAstNode::fromAst,
         PropertyAstNode::fromAst,
         ClassAstNode::fromAst,
+        ValueArgumentAstNode::fromAst,
     ).firstNotNullOfOrNull { astConstructor -> astConstructor(ast)?.takeIf { it.isRemoveTarget(targetName) } }
 
     return when {
