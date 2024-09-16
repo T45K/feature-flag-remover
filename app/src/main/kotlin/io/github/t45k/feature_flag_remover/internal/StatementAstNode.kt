@@ -20,6 +20,6 @@ data class StatementAstNode(
             }
     }
 
-    fun isRemoveTarget(targetName: String): Boolean =
+    override fun isRemoveTarget(targetName: String): Boolean =
         ast.children.any { RemoveAfterReleaseAnnotationAstNode.fromAst(it)?.targetName == targetName }
 }

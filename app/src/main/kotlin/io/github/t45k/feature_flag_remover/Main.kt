@@ -16,33 +16,23 @@ fun main() {
     val kotlinFile = KotlinGrammarAntlrKotlinParser.parseKotlinFile(source)
 
     val nodes = traverse(ast = kotlinFile, targetName = "sample")
-    println(path.readText().filterIndexed { index, _ -> nodes.all { index !in it.sourceRange } })
+    println(path.readText().filterIndexed { index, c ->
+        !(
+            nodes.any { index in it.sourceRange } ||
+                c == ',' && nodes.any { index == (it.sourceRange.last + 1) })
+    })
 }
 
 private fun traverse(ast: Ast, targetName: String): List<io.github.t45k.feature_flag_remover.internal.AstNode> {
-    val statement = StatementAstNode.fromAst(ast)
-        ?.takeIf { it.isRemoveTarget(targetName) }
-    if (statement != null) {
-        return listOf(statement)
-    }
+    val element = listOf(
+        StatementAstNode::fromAst,
+        PropertyAstNode::fromAst,
+        ClassAstNode::fromAst,
+    ).firstNotNullOfOrNull { astConstructor -> astConstructor(ast)?.takeIf { it.isRemoveTarget(targetName) } }
 
-    val property = PropertyAstNode.fromAst(ast)
-        ?.takeIf { it.isRemoveTarget(targetName) }
-    if (property != null) {
-        return listOf(property)
-    }
-
-    val clazz = ClassAstNode.fromAst(ast)
-        ?.takeIf { it.isRemoveTarget(targetName) }
-    if (clazz != null) {
-        return listOf(clazz)
-    }
-
-    return if (ast is AstNode) {
-        ast.children.flatMap {
-            traverse(it, targetName)
-        }
-    } else {
-        emptyList()
+    return when {
+        element != null -> listOf(element)
+        ast is AstNode -> ast.children.flatMap { traverse(it, targetName) }
+        else -> emptyList()
     }
 }
