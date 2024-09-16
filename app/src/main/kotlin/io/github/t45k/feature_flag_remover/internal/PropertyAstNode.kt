@@ -5,11 +5,10 @@ import kotlinx.ast.common.ast.AstInfo
 import kotlinx.ast.common.ast.AstNode
 import kotlinx.ast.common.ast.astAttachmentsOrNull
 
-// TODO: delete tailing comma
 class PropertyAstNode(
     private val ast: AstNode,
     override val sourceRange: IntRange,
-) : io.github.t45k.feature_flag_remover.internal.AstNode {
+) : RemoveCandidateAstNode {
     companion object {
         fun fromAst(ast: Ast): PropertyAstNode? =
             if (ast.description == "classParameter") {

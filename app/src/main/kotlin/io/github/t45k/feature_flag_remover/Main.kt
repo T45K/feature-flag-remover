@@ -2,13 +2,14 @@ package io.github.t45k.feature_flag_remover
 
 import io.github.t45k.feature_flag_remover.internal.ClassAstNode
 import io.github.t45k.feature_flag_remover.internal.PropertyAstNode
+import io.github.t45k.feature_flag_remover.internal.RemoveCandidateAstNode
 import io.github.t45k.feature_flag_remover.internal.StatementAstNode
+import kotlin.io.path.Path
+import kotlin.io.path.readText
 import kotlinx.ast.common.AstSource
 import kotlinx.ast.common.ast.Ast
 import kotlinx.ast.common.ast.AstNode
 import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
-import kotlin.io.path.Path
-import kotlin.io.path.readText
 
 fun main() {
     val path = Path("app/src/main/kotlin/io/github/t45k/feature_flag_remover/Sample.kt")
@@ -23,7 +24,7 @@ fun main() {
     })
 }
 
-private fun traverse(ast: Ast, targetName: String): List<io.github.t45k.feature_flag_remover.internal.AstNode> {
+private fun traverse(ast: Ast, targetName: String): List<RemoveCandidateAstNode> {
     val element = listOf(
         StatementAstNode::fromAst,
         PropertyAstNode::fromAst,

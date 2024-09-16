@@ -8,7 +8,7 @@ import kotlinx.ast.common.ast.astAttachmentsOrNull
 class ClassAstNode(
     private val ast: AstNode,
     override val sourceRange: IntRange,
-) : io.github.t45k.feature_flag_remover.internal.AstNode {
+) : RemoveCandidateAstNode {
     companion object {
         fun fromAst(ast: Ast): ClassAstNode? =
             if (ast.description == "classDeclaration") {
