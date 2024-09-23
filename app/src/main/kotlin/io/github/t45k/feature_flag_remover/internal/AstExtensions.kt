@@ -28,6 +28,11 @@ fun Ast.findNodeByDescription(description: String): AstNode? =
     else if (this is AstNode) children.firstNotNullOfOrNull { it.findNodeByDescription(description) }
     else null
 
+fun Ast.findNodeByCondition(condition: (AstNode) -> Boolean): AstNode? =
+    if (this is AstNode && condition(this)) this
+    else if (this is AstNode) children.firstNotNullOfOrNull { it.findNodeByCondition(condition) }
+    else null
+
 fun Ast.getSourceRange(): IntRange = astAttachmentsOrNull!!.attachments.values
     .filterIsInstance<AstInfo>()
     .first()

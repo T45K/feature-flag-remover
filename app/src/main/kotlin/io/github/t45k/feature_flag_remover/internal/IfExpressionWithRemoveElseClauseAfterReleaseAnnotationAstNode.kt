@@ -13,7 +13,29 @@ data class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode private
         /**
          * @param ast AST node of expression
          */
-        fun fromAst(ast: Ast): IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode? {
+        fun fromAst(ast: Ast): IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode? =
+            fromStatementAst(ast) ?: fromExpressionAst(ast)
+
+        private fun fromStatementAst(ast: Ast): IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode? {
+            if (ast.description != "statement") return null
+
+            val annotation = ast["annotation"] ?: return null
+            val targetName = annotation.findTargetNameRemoveElseClausAfterReleaseAnnotation() ?: return null
+            val ifExpression = ast.findNodeByDescription("ifExpression") ?: return null
+            val isAnnotationDefinedBeforeIfExpression = annotation.getSourceRange().last < ifExpression.getSourceRange().first
+            if (!isAnnotationDefinedBeforeIfExpression) return null
+
+            val thenClauseStatements = ifExpression["controlStructureBody"]["block"]["statements"] ?: return null
+
+            return IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode(
+                ast,
+                targetName,
+                ast.getSourceRange(),
+                thenClauseStatements.getSourceRange(),
+            )
+        }
+
+        private fun fromExpressionAst(ast: Ast): IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode? {
             if (ast.description != "expression") return null
 
             val annotation = ast.findNodeByDescription("annotation")
