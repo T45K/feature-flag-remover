@@ -1,8 +1,10 @@
 package io.github.t45k.feature_flag_remover.internal
 
 import kotlinx.ast.common.ast.Ast
+import kotlinx.ast.common.ast.AstInfo
 import kotlinx.ast.common.ast.AstNode
 import kotlinx.ast.common.ast.AstTerminal
+import kotlinx.ast.common.ast.astAttachmentsOrNull
 
 operator fun Ast?.get(childName: String): Ast? =
     when (this) {
@@ -20,3 +22,13 @@ fun Ast.findTerminalByText(text: String): AstTerminal? =
     if (this is AstTerminal && this.text == text) this
     else if (this is AstNode) children.firstNotNullOfOrNull { it.findTerminalByDescription(text) }
     else null
+
+fun Ast.findNodeByDescription(description: String): AstNode? =
+    if (this is AstNode && this.description == description) this
+    else if (this is AstNode) children.firstNotNullOfOrNull { it.findNodeByDescription(description) }
+    else null
+
+fun Ast.getSourceRange(): IntRange = astAttachmentsOrNull!!.attachments.values
+    .filterIsInstance<AstInfo>()
+    .first()
+    .let { (_, start, stop) -> start.index..<stop.index }

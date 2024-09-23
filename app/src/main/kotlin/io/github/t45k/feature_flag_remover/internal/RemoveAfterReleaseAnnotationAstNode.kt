@@ -11,6 +11,9 @@ data class RemoveAfterReleaseAnnotationAstNode private constructor(
     val sourceRange: IntRange,
 ) {
     companion object {
+        /**
+         * @param ast AST node of annotation
+         */
         fun fromAst(ast: Ast): RemoveAfterReleaseAnnotationAstNode? {
             if (ast.description != "annotation") return null
 

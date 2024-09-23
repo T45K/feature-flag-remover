@@ -1,6 +1,7 @@
 package io.github.t45k.feature_flag_remover
 
 import io.github.t45k.feature_flag_remover.internal.ClassAstNode
+import io.github.t45k.feature_flag_remover.internal.IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode
 import io.github.t45k.feature_flag_remover.internal.PropertyAstNode
 import io.github.t45k.feature_flag_remover.internal.RemoveCandidateAstNode
 import io.github.t45k.feature_flag_remover.internal.StatementAstNode
@@ -18,10 +19,19 @@ fun main() {
     val kotlinFile = KotlinGrammarAntlrKotlinParser.parseKotlinFile(source)
 
     val nodes = traverse(ast = kotlinFile, targetName = "sample")
+    val node2 = traverse2(ast = kotlinFile, targetName = "sample")
     println(path.readText().filterIndexed { index, c ->
-        !(
-            nodes.any { index in it.sourceRange } ||
-                c == ',' && nodes.any { index == (it.sourceRange.last + 1) })
+        val isIndexInRemoveAfterReleaseTarget = nodes.any { index in it.sourceRange }
+        val isIndexOfTailingCommaOfRemoveAfterReleaseTarget = c == ',' && nodes.any { index == (it.sourceRange.last + 1) }
+        val isIndexInIfExpressionWithRemoveElseClauseAfterReleaseAnnotationTarget = node2.any { index in it.wholeExpressionSourceRange }
+        val isIndexInThenClauseOfIfExpressionWithRemoveElseClauseAfterReleaseAnnotationTarget = node2.any { index in it.thenClauseSourceRange }
+
+        val isRemoveTarget =
+            isIndexInRemoveAfterReleaseTarget ||
+                isIndexOfTailingCommaOfRemoveAfterReleaseTarget ||
+                isIndexInIfExpressionWithRemoveElseClauseAfterReleaseAnnotationTarget && !isIndexInThenClauseOfIfExpressionWithRemoveElseClauseAfterReleaseAnnotationTarget
+
+        !isRemoveTarget
     })
 }
 
@@ -36,6 +46,16 @@ private fun traverse(ast: Ast, targetName: String): List<RemoveCandidateAstNode>
     return when {
         element != null -> listOf(element)
         ast is AstNode -> ast.children.flatMap { traverse(it, targetName) }
+        else -> emptyList()
+    }
+}
+
+private fun traverse2(ast: Ast, targetName: String): List<IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode> {
+    val element = IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode.fromAst(ast)
+
+    return when {
+        element != null -> listOf(element)
+        ast is AstNode -> ast.children.flatMap { traverse2(it, targetName) }
         else -> emptyList()
     }
 }

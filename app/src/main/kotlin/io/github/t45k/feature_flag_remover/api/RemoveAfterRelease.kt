@@ -8,3 +8,7 @@ package io.github.t45k.feature_flag_remover.api
     AnnotationTarget.LOCAL_VARIABLE,
 )
 annotation class RemoveAfterRelease(val target: String)
+
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.EXPRESSION)
+annotation class RemoveElseClausAfterRelease(val target: String)
