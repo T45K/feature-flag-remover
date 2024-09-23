@@ -2,8 +2,6 @@ package io.github.t45k.feature_flag_remover.internal
 
 import io.github.t45k.feature_flag_remover.api.RemoveAfterRelease
 import kotlinx.ast.common.ast.Ast
-import kotlinx.ast.common.ast.AstInfo
-import kotlinx.ast.common.ast.astAttachmentsOrNull
 
 data class RemoveAfterReleaseAnnotationAstNode private constructor(
     private val ast: Ast,
@@ -22,8 +20,7 @@ data class RemoveAfterReleaseAnnotationAstNode private constructor(
 
             val targetName = annotationInvocationAst["valueArguments"]["valueArgument"]["expression"]?.findTerminalByDescription("LineStrText")?.text
                 ?: return null
-            val sourceRange = ast.astAttachmentsOrNull!!.attachments.values.filterIsInstance<AstInfo>().first()
-                .let { (_, start, stop) -> start.index..stop.index }
+            val sourceRange = ast.getSourceRange()
             return RemoveAfterReleaseAnnotationAstNode(ast, targetName, sourceRange)
         }
     }

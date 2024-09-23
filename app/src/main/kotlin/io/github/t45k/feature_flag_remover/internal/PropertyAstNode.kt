@@ -1,9 +1,7 @@
 package io.github.t45k.feature_flag_remover.internal
 
 import kotlinx.ast.common.ast.Ast
-import kotlinx.ast.common.ast.AstInfo
 import kotlinx.ast.common.ast.AstNode
-import kotlinx.ast.common.ast.astAttachmentsOrNull
 
 class PropertyAstNode(
     private val ast: AstNode,
@@ -12,9 +10,7 @@ class PropertyAstNode(
     companion object {
         fun fromAst(ast: Ast): PropertyAstNode? =
             if (ast.description == "classParameter") {
-                val sourceRange = ast.astAttachmentsOrNull!!.attachments.values.filterIsInstance<AstInfo>().first()
-                    .let { (_, start, stop) -> start.index..<stop.index }
-                PropertyAstNode(ast as AstNode, sourceRange)
+                PropertyAstNode(ast as AstNode, ast.getSourceRange())
             } else {
                 null
             }

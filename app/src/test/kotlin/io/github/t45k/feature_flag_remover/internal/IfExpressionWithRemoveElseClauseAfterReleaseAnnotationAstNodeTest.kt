@@ -29,6 +29,6 @@ class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNodeTest {
         assertEquals("sample", ifExpressionWithAnnotation.targetName)
         assertEquals(7..97, ifExpressionWithAnnotation.wholeExpressionSourceRange)
         assertEquals(63..72, ifExpressionWithAnnotation.thenClauseSourceRange)
-        assertEquals("\"enabled\"", sourceCode.substring(63..71))
+        assertEquals("\"enabled\"", sourceCode.substring(63..<72))
     }
 }
