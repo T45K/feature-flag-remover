@@ -1,16 +1,17 @@
-package io.github.t45k.feature_flag_remover.internal
+package io.github.t45k.feature_flag_remover.internal.ast.removeTarget
 
+import io.github.t45k.feature_flag_remover.internal.getSourceRange
 import kotlinx.ast.common.ast.Ast
 import kotlinx.ast.common.ast.AstNode
 
-data class ValueArgumentAstNode(
+data class StatementAstNode(
     private val ast: AstNode,
     override val sourceRange: IntRange,
 ) : RemoveCandidateAstNode {
     companion object {
-        fun fromAst(ast: Ast): ValueArgumentAstNode? =
-            if (ast.description == "valueArgument") {
-                ValueArgumentAstNode(ast as AstNode, ast.getSourceRange())
+        fun fromAst(ast: Ast): StatementAstNode? =
+            if (ast.description == "statement") {
+                StatementAstNode(ast as AstNode, ast.getSourceRange())
             } else {
                 null
             }

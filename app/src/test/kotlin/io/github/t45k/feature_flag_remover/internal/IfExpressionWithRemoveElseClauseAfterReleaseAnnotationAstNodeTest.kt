@@ -1,6 +1,6 @@
 package io.github.t45k.feature_flag_remover.internal
 
-import io.github.t45k.feature_flag_remover.api.RemoveElseClausAfterRelease
+import io.github.t45k.feature_flag_remover.internal.ast.removeElseClauseTarget.IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

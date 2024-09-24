@@ -1,6 +1,11 @@
-package io.github.t45k.feature_flag_remover.internal
+package io.github.t45k.feature_flag_remover.internal.ast.removeElseClauseTarget
 
 import io.github.t45k.feature_flag_remover.api.RemoveElseClausAfterRelease
+import io.github.t45k.feature_flag_remover.internal.findNodeByDescription
+import io.github.t45k.feature_flag_remover.internal.findTerminalByDescription
+import io.github.t45k.feature_flag_remover.internal.findTerminalByText
+import io.github.t45k.feature_flag_remover.internal.get
+import io.github.t45k.feature_flag_remover.internal.getSourceRange
 import kotlinx.ast.common.ast.Ast
 
 data class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode private constructor(
