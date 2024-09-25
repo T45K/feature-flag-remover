@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.t45k"
-version = "0.1.0"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
@@ -30,4 +30,14 @@ java {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+publishing {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from(components["java"])
+            }
+        }
+    }
 }
