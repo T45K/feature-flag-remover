@@ -3,4 +3,4 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-rootProject.name = "feature_flag_remover"
+rootProject.name = "feature-flag-remover"
