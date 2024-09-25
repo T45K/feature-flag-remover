@@ -4,4 +4,3 @@ plugins {
 }
 
 rootProject.name = "feature_flag_remover"
-include("app")
