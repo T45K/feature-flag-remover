@@ -49,13 +49,18 @@ data class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode private
             val isAnnotationDefinedBeforeIfExpression = annotation.getSourceRange().last < ifExpression.getSourceRange().first
             if (!isAnnotationDefinedBeforeIfExpression) return null
 
-            val thenClauseStatements = ifExpression["controlStructureBody"]["block"]["statements"] ?: return null
+            val thenBody = ifExpression["controlStructureBody"]
+            val thenClauseSourceRange = when {
+                thenBody["block"] != null -> thenBody["block"]["statements"]
+                thenBody["statement"] != null -> thenBody["statement"]
+                else -> null
+            }?.getSourceRange() ?: return null
 
             return IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode(
                 ast,
                 targetName,
                 ast.getSourceRange(),
-                thenClauseStatements.getSourceRange(),
+                thenClauseSourceRange,
             )
         }
 
