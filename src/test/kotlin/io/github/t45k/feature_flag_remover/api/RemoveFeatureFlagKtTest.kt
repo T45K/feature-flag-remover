@@ -28,6 +28,8 @@ class RemoveFeatureFlagKtTest {
                 } else {
                     "disabled"
                 }
+                
+                val c = @RemoveElseClausAfterRelease("sample") if (true) "enabled" else "disabled"
             }
         }
     """.trimIndent()
@@ -55,6 +57,8 @@ class RemoveFeatureFlagKtTest {
 
                         val b ="enabled"
 
+                        
+                        val c ="enabled"
                     }
                 }
             """.trimIndent(),
