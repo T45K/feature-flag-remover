@@ -30,9 +30,19 @@ class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNodeTest {
         // then
         assertNotNull(ifExpressionWithAnnotation)
         assertEquals("sample", ifExpressionWithAnnotation.targetName)
-        assertEquals(7..97, ifExpressionWithAnnotation.wholeExpressionSourceRange)
-        assertEquals(63..72, ifExpressionWithAnnotation.thenClauseSourceRange)
-        assertEquals("\"enabled\"", sourceCode.substring(63..<72))
+        assertEquals(
+            """
+                 @RemoveElseClausAfterRelease("sample") if (true) {
+                    "enabled"
+                } else {
+                    "disabled"
+                }
+            """.trimIndent(), sourceCode.substring(ifExpressionWithAnnotation.wholeExpressionSourceRange)
+        )
+        assertEquals(
+            "\"enabled\"\n",
+            sourceCode.substring(ifExpressionWithAnnotation.thenClauseSourceRange),
+        )
     }
 
     @Test
@@ -79,5 +89,45 @@ class IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNodeTest {
 
         // then
         assertNotNull(ifExpressionWithAnnotation2)
+        assertEquals(
+            """
+                | @RemoveElseClausAfterRelease("sample") if (true) {
+                |        "enabled"
+                |    } else {
+                |        "disabled"
+                |    }
+            """.trimMargin(),
+            nestedIfStatement.substring(ifExpressionWithAnnotation2.wholeExpressionSourceRange)
+        )
+        assertEquals(
+            """
+                "enabled"
+                
+            """.trimIndent(),
+            nestedIfStatement.substring(ifExpressionWithAnnotation2.thenClauseSourceRange)
+        )
+    }
+
+    @Test
+    fun `fromAst returns correct node when giving if statement without braces`() {
+        val ifStatementWithoutBraces = """val b = @RemoveElseClausAfterRelease("sample") if (true) "enabled" else "disabled"""".trimIndent()
+
+        val source = AstSource.String(description = "dummy", content = ifStatementWithoutBraces)
+        val expression = KotlinGrammarAntlrKotlinParser.parseKotlinFile(source).findNodeByDescription("expression")!!
+
+        // when
+        val ifExpressionWithAnnotation = IfExpressionWithRemoveElseClauseAfterReleaseAnnotationAstNode.fromAst(expression)
+
+        // then
+        assertNotNull(ifExpressionWithAnnotation)
+        assertEquals("sample", ifExpressionWithAnnotation.targetName)
+        assertEquals(
+            """ @RemoveElseClausAfterRelease("sample") if (true) "enabled" else "disabled"""",
+            ifStatementWithoutBraces.substring(ifExpressionWithAnnotation.wholeExpressionSourceRange),
+        )
+        assertEquals(
+            "\"enabled\"",
+            ifStatementWithoutBraces.substring(ifExpressionWithAnnotation.thenClauseSourceRange),
+        )
     }
 }
