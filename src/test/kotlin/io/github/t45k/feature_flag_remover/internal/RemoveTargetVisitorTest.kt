@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 class RemoveTargetVisitorTest {
     @Test
-    fun `RemoveTargetVisitorTest finds annotated local variable declaration`() {
+    fun `RemoveTargetVisitor finds annotated local variable declaration`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -34,7 +34,7 @@ class RemoveTargetVisitorTest {
     }
 
     @Test
-    fun `RemoveTargetVisitorTest finds annotated class property`() {
+    fun `RemoveTargetVisitor finds annotated class property`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -54,7 +54,7 @@ class RemoveTargetVisitorTest {
     }
 
     @Test
-    fun `RemoveTargetVisitorTest finds annotated if expression`() {
+    fun `RemoveTargetVisitor finds annotated if expression`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -85,7 +85,7 @@ class RemoveTargetVisitorTest {
 
 
     @Test
-    fun `RemoveTargetVisitorTest finds annotated class declaration`() {
+    fun `RemoveTargetVisitor finds annotated class declaration`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -109,7 +109,7 @@ class RemoveTargetVisitorTest {
     }
 
     @Test
-    fun `RemoveTargetVisitorTest finds annotated parameter`() {
+    fun `RemoveTargetVisitor finds annotated parameter`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -131,7 +131,7 @@ class RemoveTargetVisitorTest {
     }
 
     @Test
-    fun `RemoveTargetVisitorTest finds annotated argument`() {
+    fun `RemoveTargetVisitor finds annotated argument`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
@@ -152,7 +152,7 @@ class RemoveTargetVisitorTest {
     }
 
     @Test
-    fun `RemoveTargetVisitorTest finds multiple annotated elements`() {
+    fun `RemoveTargetVisitor finds multiple annotated elements`() {
         // given
         val visitor = RemoveTargetVisitor("sample")
         val content = """
