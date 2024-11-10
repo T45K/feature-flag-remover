@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.kotlinx.ast:grammar-kotlin-parser-antlr-kotlin:v0.1.0")
+    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation(libs.junit.jupiter.engine)

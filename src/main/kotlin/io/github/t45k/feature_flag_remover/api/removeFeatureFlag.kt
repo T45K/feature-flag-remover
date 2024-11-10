@@ -1,29 +1,46 @@
 package io.github.t45k.feature_flag_remover.api
 
+import io.github.t45k.feature_flag_remover.internal.RemoveElseClauseTargetVisitor
+import io.github.t45k.feature_flag_remover.internal.RemoveTargetVisitor
 import io.github.t45k.feature_flag_remover.internal.removeFromText
-import io.github.t45k.feature_flag_remover.internal.traverseRemoveElseClauseTarget
-import io.github.t45k.feature_flag_remover.internal.traverseRemoveTarget
-import kotlin.io.path.isRegularFile
-import kotlin.io.path.readText
-import kotlin.io.path.writeText
-import kotlinx.ast.common.AstSource
-import kotlinx.ast.grammar.kotlin.target.antlr.kotlin.KotlinGrammarAntlrKotlinParser
-import java.nio.file.Path
+import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
+import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
+import org.jetbrains.kotlin.com.intellij.openapi.util.Disposer
+import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.psi.KtPsiFactory
 
-fun removeFeatureFlag(kotlinFile: Path, targetName: String) {
-    require(kotlinFile.isRegularFile())
-
-    val content = kotlinFile.readText()
-    val removedContent = removeFeatureFlag(content, targetName)
-    kotlinFile.writeText(removedContent)
+fun removeFeatureFlagContext(block: ProjectSetup.() -> String): String {
+    return ProjectSetup().use {
+        it.block()
+    }
 }
 
-fun removeFeatureFlag(kotlinFileContent: String, targetName: String): String {
-    val astRoot = AstSource.String(description = "Kotlin file", content = kotlinFileContent)
-        .let { KotlinGrammarAntlrKotlinParser.parseKotlinFile(it) }
+class ProjectSetup : AutoCloseable {
+    private val disposable = Disposer.newDisposable()
+    private val environment = KotlinCoreEnvironment.createForProduction(
+        disposable,
+        CompilerConfiguration(),
+        EnvironmentConfigFiles.JVM_CONFIG_FILES
+    )
+    private val project = environment.project
+    private val psiFactory = KtPsiFactory(project)
 
-    val removeTarget = traverseRemoveTarget(astRoot, targetName)
-    val removeElseClauseTarget = traverseRemoveElseClauseTarget(astRoot, targetName)
+    fun removeFeatureFlag(kotlinFileContent: String, targetName: String): String {
+        val ktFile = psiFactory.createFile(kotlinFileContent)
+        val removeTargetVisitor = RemoveTargetVisitor(targetName)
+        val removeElseClauseTargetVisitor = RemoveElseClauseTargetVisitor(targetName)
 
-    return removeFromText(kotlinFileContent, removeTarget, removeElseClauseTarget)
+        ktFile.accept(removeTargetVisitor)
+        ktFile.accept(removeElseClauseTargetVisitor)
+
+        return removeFromText(
+            kotlinFileContent,
+            removeTargetVisitor.removeTargetElements,
+            removeElseClauseTargetVisitor.removeTargetElements,
+        )
+    }
+
+    override fun close() {
+        disposable.dispose()
+    }
 }
