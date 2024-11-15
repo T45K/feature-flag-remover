@@ -6,5 +6,6 @@ package io.github.t45k.feature_flag_remover.api
     AnnotationTarget.PROPERTY,
     AnnotationTarget.CLASS,
     AnnotationTarget.LOCAL_VARIABLE,
+    AnnotationTarget.VALUE_PARAMETER,
 )
 annotation class RemoveAfterRelease(val target: String)
