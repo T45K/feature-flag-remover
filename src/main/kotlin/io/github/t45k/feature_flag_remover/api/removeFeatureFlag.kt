@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.com.intellij.openapi.util.Disposer
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
-fun removeFeatureFlagContext(block: ProjectSetup.() -> String): String {
+fun removeFeatureFlagContext(block: ProjectSetup.() -> Unit) {
     return ProjectSetup().use {
         it.block()
     }
