@@ -28,14 +28,20 @@ class IntegrationTest {
                 } else {
                     "disabled"
                 }
-                
+
                 val c = @RemoveElseClauseAfterRelease("sample") if (true) "enabled" else "disabled"
             }
+
+            @RemoveAfterRelease("sample")
+            fun sample2() {
+            }
+
+            class Sample2 @RemoveAfterRelease("sample") constructor()
         }
     """.trimIndent()
 
     @Test
-    fun test() {
+    fun test() = removeFeatureFlagContext {
         // expect
         assertEquals(
             """
@@ -54,12 +60,16 @@ class IntegrationTest {
                         val sample = Sample()
 
                         val b = "enabled"
-                        
+
                         val c = "enabled"
                     }
+
+                    
+
+                    class Sample2 
                 }
             """.trimIndent(),
-            removeFeatureFlagContext { removeFeatureFlag(kotlinFileContent, "sample") },
+            removeFeatureFlag(kotlinFileContent, "sample"),
         )
     }
 }

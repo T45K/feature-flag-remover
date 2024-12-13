@@ -5,8 +5,11 @@ import org.jetbrains.kotlin.psi.KtAnnotated
 import org.jetbrains.kotlin.psi.KtAnnotatedExpression
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtElement
+import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtParameter
+import org.jetbrains.kotlin.psi.KtPrimaryConstructor
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.KtSecondaryConstructor
 import org.jetbrains.kotlin.psi.KtTreeVisitorVoid
 
 class RemoveTargetVisitor(private val targetName: String) : KtTreeVisitorVoid() {
@@ -42,6 +45,30 @@ class RemoveTargetVisitor(private val targetName: String) : KtTreeVisitorVoid() 
             _removeTargetElements.add(expression)
         } else {
             return super.visitAnnotatedExpression(expression)
+        }
+    }
+
+    override fun visitNamedFunction(function: KtNamedFunction) {
+        if (function.isAnnotatedAsRemoveTarget()) {
+            _removeTargetElements.add(function)
+        } else {
+            return super.visitNamedFunction(function)
+        }
+    }
+
+    override fun visitPrimaryConstructor(constructor: KtPrimaryConstructor) {
+        if (constructor.isAnnotatedAsRemoveTarget()) {
+            _removeTargetElements.add(constructor)
+        } else {
+            return super.visitPrimaryConstructor(constructor)
+        }
+    }
+
+    override fun visitSecondaryConstructor(constructor: KtSecondaryConstructor) {
+        if (constructor.isAnnotatedAsRemoveTarget()) {
+            _removeTargetElements.add(constructor)
+        } else {
+            super.visitSecondaryConstructor(constructor)
         }
     }
 
