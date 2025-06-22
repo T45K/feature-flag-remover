@@ -25,7 +25,7 @@ class RemoveElseClauseTargetVisitorTest {
         assertEquals(1, visitor.removeTargetElements.size)
         assertEquals(
             """@RemoveElseClauseAfterRelease("sample") if (true) { "enabled" } else { "disabled" }""",
-            content.substring(visitor.removeTargetElements[0].startOffset, visitor.removeTargetElements[0].endOffset),
+            content.substring(visitor.removeTargetElements[0].parent.startOffset, visitor.removeTargetElements[0].parent.endOffset),
         )
     }
 
@@ -47,7 +47,7 @@ class RemoveElseClauseTargetVisitorTest {
         assertEquals(1, visitor.removeTargetElements.size)
         assertEquals(
             """@RemoveElseClauseAfterRelease("sample") if (true) "enabled" else "disabled"""",
-            content.substring(visitor.removeTargetElements[0].startOffset, visitor.removeTargetElements[0].endOffset),
+            content.substring(visitor.removeTargetElements[0].parent.startOffset, visitor.removeTargetElements[0].parent.endOffset),
         )
     }
 }
