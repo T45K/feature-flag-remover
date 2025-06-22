@@ -1,18 +1,18 @@
 plugins {
     kotlin("jvm") version "2.0.0"
+
     `maven-publish`
 }
 
-group = "com.github.t45k"
-version = "0.1.2"
-
 subprojects {
     apply(plugin = "kotlin")
-    apply(plugin = "maven-publish")
 
     repositories {
         mavenCentral()
     }
+
+    group = "com.github.t45k"
+    version = "0.1.2"
 
     dependencies {
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -40,11 +40,9 @@ dependencies {
 }
 
 publishing {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-            }
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }

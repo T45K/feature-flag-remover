@@ -1,6 +1,4 @@
-pluginManagement {
-    includeBuild("plugin")
-}
+include("api", "plugin")
 
 plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs
@@ -8,4 +6,3 @@ plugins {
 }
 
 rootProject.name = "feature-flag-remover"
-include("api")

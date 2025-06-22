@@ -1,36 +1,12 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
     `java-gradle-plugin`
     `maven-publish`
 }
 
-group = "com.github.t45k"
-version = "0.1.2"
-
-repositories {
-    mavenCentral()
-    maven("https://jitpack.io")
-}
-
 dependencies {
-    implementation(project(":"))
-
+    implementation(project(":api"))
     implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
-
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
 }
 
 gradlePlugin {
