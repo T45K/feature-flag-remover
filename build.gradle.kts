@@ -6,30 +6,37 @@ plugins {
 group = "com.github.t45k"
 version = "0.1.2"
 
+subprojects {
+    apply(plugin = "kotlin")
+    apply(plugin = "maven-publish")
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+        testImplementation(rootProject.libs.junit.jupiter.engine)
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     api(project(":api"))
-
-    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
-
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testImplementation(libs.junit.jupiter.engine)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    implementation(libs.guava)
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
 }
 
 publishing {
