@@ -1,8 +1,5 @@
-package io.github.t45k.feature_flag_remover.api
+package io.github.t45k.feature_flag_remover.plugin
 
-import io.github.t45k.feature_flag_remover.internal.RemoveElseClauseTargetVisitor
-import io.github.t45k.feature_flag_remover.internal.RemoveTargetVisitor
-import io.github.t45k.feature_flag_remover.internal.removeFromText
 import org.jetbrains.kotlin.cli.jvm.compiler.EnvironmentConfigFiles
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.com.intellij.openapi.util.Disposer

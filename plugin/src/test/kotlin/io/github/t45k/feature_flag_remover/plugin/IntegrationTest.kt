@@ -1,4 +1,4 @@
-package io.github.t45k.feature_flag_remover.api
+package io.github.t45k.feature_flag_remover.plugin
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

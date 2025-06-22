@@ -1,4 +1,4 @@
-package io.github.t45k.feature_flag_remover.internal
+package io.github.t45k.feature_flag_remover.plugin
 
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtElement

@@ -1,4 +1,4 @@
-package io.github.t45k.feature_flag_remover.internal
+package io.github.t45k.feature_flag_remover.plugin
 
 import io.github.t45k.feature_flag_remover.api.RemoveAfterRelease
 import org.jetbrains.kotlin.psi.KtAnnotated
