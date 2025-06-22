@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.0"
-
+    id("io.github.t45k.feature-flag-remover")
     `maven-publish`
 }
 
@@ -24,7 +24,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
