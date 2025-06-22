@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":"))
+
     implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
 

@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "2.0.0"
-    id("io.github.t45k.feature-flag-remover")
     `maven-publish`
 }
 
@@ -9,7 +8,6 @@ version = "0.1.2"
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -24,7 +22,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
