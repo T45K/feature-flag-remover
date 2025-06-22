@@ -3,7 +3,6 @@ package io.github.t45k.gradle.plugin
 import io.github.t45k.feature_flag_remover.api.ProjectSetup
 import io.github.t45k.feature_flag_remover.api.removeFeatureFlagContext
 import org.gradle.api.DefaultTask
-import org.gradle.api.logging.LogLevel
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.SourceSetContainer
@@ -33,7 +32,7 @@ abstract class RemoveFeatureFlagTask : DefaultTask() {
                 File(project.projectDir, "src/test/kotlin"),
             )
 
-        logger.log(LogLevel.INFO, "Start removing '$feature' feature flag from the following directories: $sourceDirectories")
+        println("Start removing '$feature' feature flag from the following directories:\n${sourceDirectories.joinToString("\n") { "\t$it" }}")
 
         removeFeatureFlagContext {
             sourceDirectories.forEach { srcDir ->
@@ -43,26 +42,26 @@ abstract class RemoveFeatureFlagTask : DefaultTask() {
             }
         }
 
-        logger.log(LogLevel.INFO, "'$feature' feature flag removal completed")
+        println("'$feature' feature flag removal completed")
     }
 
     private fun ProjectSetup.processDirectory(directory: File, featureName: String) {
         directory.walkTopDown()
-            .filter { it.isFile && it.extension == ".kt" }
+            .filter { it.isFile && it.extension == "kt" }
             .forEach { processKotlinFile(it, featureName) }
     }
 
     private fun ProjectSetup.processKotlinFile(file: File, featureName: String) {
-        logger.log(LogLevel.INFO, "Start processing file '$file'")
+        println("Start processing file '$file'")
 
         val originalContent = file.readText()
         val processedContent = removeFeatureFlag(originalContent, featureName)
 
         if (originalContent != processedContent) {
             file.writeText(processedContent)
-            logger.log(LogLevel.INFO, "Finished processing file '$file'")
+            println("Finished processing file '$file'")
         } else {
-            logger.log(LogLevel.INFO, "Skip processing file '$file' because no feature flag was found")
+            println("Skip processing file '$file' because given feature flag was not found")
         }
     }
 }
