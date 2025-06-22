@@ -8,3 +8,4 @@ plugins {
 }
 
 rootProject.name = "feature-flag-remover"
+include("api")

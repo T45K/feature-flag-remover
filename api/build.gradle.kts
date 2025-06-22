@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm")
     `maven-publish`
 }
 
@@ -11,15 +11,11 @@ repositories {
 }
 
 dependencies {
-    api(project(":api"))
-
     implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation(libs.junit.jupiter.engine)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    implementation(libs.guava)
 }
 
 java {
@@ -33,11 +29,9 @@ tasks.named<Test>("test") {
 }
 
 publishing {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-            }
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
