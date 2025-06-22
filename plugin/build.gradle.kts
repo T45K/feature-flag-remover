@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.0"
     `java-gradle-plugin`
+    `maven-publish`
 }
 
 group = "com.github.t45k"
@@ -37,6 +38,14 @@ gradlePlugin {
             implementationClass = "io.github.t45k.gradle.plugin.FeatureFlagRemoverPlugin"
             displayName = "Feature Flag Remover Plugin"
             description = "A Gradle plugin to remove feature flags from Kotlin code"
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
