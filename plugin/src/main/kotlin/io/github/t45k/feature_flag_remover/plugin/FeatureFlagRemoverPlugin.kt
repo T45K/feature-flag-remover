@@ -1,4 +1,4 @@
-package io.github.t45k.gradle.plugin
+package io.github.t45k.feature_flag_remover.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
