@@ -11,7 +11,7 @@ subprojects {
         mavenCentral()
     }
 
-    group = "com.github.t45k"
+    group = "io.github.t45k"
     version = "1.0.0"
 
     dependencies {
