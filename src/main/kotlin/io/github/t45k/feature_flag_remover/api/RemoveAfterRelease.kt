@@ -10,4 +10,4 @@ package io.github.t45k.feature_flag_remover.api
     AnnotationTarget.FUNCTION,
     AnnotationTarget.CONSTRUCTOR,
 )
-annotation class RemoveAfterRelease(val target: String)
+annotation class RemoveAfterRelease(vararg val target: String)
