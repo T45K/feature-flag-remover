@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.t45k"
-version = "1.0.0"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -18,11 +18,9 @@ java {
 }
 
 publishing {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-            }
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
