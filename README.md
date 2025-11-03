@@ -2,8 +2,8 @@
 
 Let's remove unused feature flag-related code!
 
-This repository has only APIs.
-Removal logic itself is written in [Plugin repository](https://github.com/T45K/feature-flag-remover-plugin).
+This repository provides only the core API (annotations).
+The actual removal logic is implemented in the [Plugin repository](https://github.com/T45K/feature-flag-remover-plugin).
 
 ## Requirement
 
@@ -21,6 +21,7 @@ plugins {
 
 repositories {
   mavenCentral()
+  // Add Jitpack as the API is distributed via Jitpack
   maven { url = uri("https://jitpack.io") }
 }
 
@@ -29,8 +30,8 @@ dependencies {
 }
 ```
 
-You need to add `jitpack` URL to `repositories` block because `feature-flag-remover` is distributed
-by [Jitpack](https://jitpack.io/#T45K/feature-flag-remover).
+Note on Jitpack: You must add the jitpack.io URL to your repositories block because `feature-flag-remover` API is
+distributed via [Jitpack](https://jitpack.io/#T45K/feature-flag-remover).
 
 ## Usage
 
@@ -38,7 +39,7 @@ There are two annotations to mark removing targets; `RemoveAfterRelease` and `Re
 
 ### RemoveAfterRelease
 
-Please use `RemoveAfterRelease` when you want to remove whole the target statment.
+Please use `RemoveAfterRelease` to remove the entire target statement.
 
 ```kotlin
 fun main() {
