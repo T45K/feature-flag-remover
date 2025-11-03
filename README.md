@@ -46,7 +46,7 @@ fun main() {
     @RemoveAfterRelease("feature")
     val isReleased = true
 
-    // You want to remove whole this if-statement
+    // You want to remove this entire if-statement
     @RemoveAfterRelease("feature")
     if (!isRelease) {
         beforeRelease() // You want to call beforeReleases instead of afterRelease until the feature is release
@@ -76,7 +76,7 @@ fun main() {
 }
 ```
 
-When you try to `feature` feature flag, this code will be
+When execute `feature` feature flag removal, this code will be
 
 ```kotlin
 fun main() {
@@ -113,7 +113,9 @@ fun main() {
 }
 ```
 
-You can execute such removal by `./gradlew removeFeatureFlag --feature feature_name --no-configuration-cache` command.
+### Execute removal
+
+You can execute by `./gradlew removeFeatureFlag --feature feature_name --no-configuration-cache` command.
 Currently, this command doesn't support configuration cache.
 
 you can refer to [test code](https://github.com/T45K/feature-flag-remover-plugin/tree/master/src/test/resources)
