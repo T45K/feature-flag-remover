@@ -7,9 +7,9 @@ The actual removal logic is implemented in the [Plugin repository](https://githu
 
 ## Requirement
 
-- Kotlin 2.2.21+
-- Java 21+
-- Gradle 9.2+
+- Kotlin 2.4.0+
+- Java 25+
+- Gradle 9.5.1+
 
 ## Setup
 
